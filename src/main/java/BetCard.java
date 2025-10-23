@@ -153,6 +153,26 @@ public class BetCard {
         }
     }
 
+    // Add this method to BetCard.java
+    public void highlightMatches(Set<Integer> drawnNumbers) {
+        for (Button button : numberButtons) {
+            int buttonNumber = Integer.parseInt(button.getText());
+            if (selectedNumbers.contains(buttonNumber) && drawnNumbers.contains(buttonNumber)) {
+                // This number was selected AND drawn - highlight as match
+                button.setStyle("-fx-background-color: limegreen; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+            } else if (selectedNumbers.contains(buttonNumber)) {
+                // This number was selected but NOT drawn
+                button.setStyle("-fx-background-color: gold; -fx-font-size: 14px; -fx-font-weight: bold;");
+            } else if (drawnNumbers.contains(buttonNumber)) {
+                // This number was drawn but NOT selected
+                button.setStyle("-fx-background-color: orange; -fx-font-size: 14px; -fx-font-weight: bold;");
+            } else {
+                // Neither selected nor drawn
+                button.setStyle("-fx-background-color: lightblue; -fx-font-size: 14px; -fx-font-weight: bold;");
+            }
+        }
+    }
+
     // Getters
     public GridPane getGridPane() { return gridPane; }
     public Set<Integer> getSelectedNumbers() { return new HashSet<>(selectedNumbers); }
