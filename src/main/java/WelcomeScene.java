@@ -43,7 +43,7 @@ public class WelcomeScene {
 
     private void createMenuBar() {
         Menu menu = new Menu("Menu");
-
+        menu.setStyle("-fx-background-color: " +GOLD + ";");
         MenuItem rulesMenuItem = new MenuItem("Rules");
         MenuItem oddsMenuItem = new MenuItem("Odds");
         MenuItem exitMenuItem = new MenuItem("Exit");
@@ -110,11 +110,11 @@ public class WelcomeScene {
         // Main content container
         VBox contentBox = new VBox(40);
         contentBox.setAlignment(Pos.CENTER);
-        contentBox.setPadding(new Insets(40));
+        contentBox.setPadding(new Insets(50));
         contentBox.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
                 "-fx-border-color: " + BRIGHT_PURPLE + "; " +
-                "-fx-border-width: 3; " +
-                "-fx-border-radius: 35; " +
+                "-fx-border-width: 5; " +
+                "-fx-border-radius:45; " +
                 "-fx-background-radius: 10;");
         contentBox.setMaxWidth(500);
         contentBox.getChildren().addAll(titleLabel, messageArea, startButton, totalWinsLabel);
@@ -140,7 +140,7 @@ public class WelcomeScene {
 
         // Style the alert dialog with your colors
         DialogPane dialogPane = rulesAlert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
+        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
                 "-fx-text-fill: " + WHITE + ";");
         rulesAlert.showAndWait();
     }
@@ -172,7 +172,7 @@ public class WelcomeScene {
 
         // Style the alert dialog with your colors
         DialogPane dialogPane = oddsAlert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
+        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
                 "-fx-text-fill: " + WHITE + ";");
         oddsAlert.showAndWait();
     }

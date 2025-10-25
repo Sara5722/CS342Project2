@@ -1,5 +1,3 @@
-// GamePlayScene.java - Complete with Drawing Logic and Results
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.*;
 
@@ -14,6 +14,14 @@ public class GamePlayScene {
     private Scene scene;
     private KenoGame mainApp;
     private GameState gameState;
+
+    // Your color palette
+    private final String DARK_PURPLE = "#450693";
+    private final String BRIGHT_PURPLE = "#8C00FF";
+    private final String PINK = "#FF3F7F";
+    private final String GOLD = "#FFC400";
+    private final String WHITE = "#FFFFFF";
+    private final String BLACK = "#000000";
 
     private MenuBar menuBar;
     private ToggleGroup spotsToggleGroup;
@@ -55,6 +63,7 @@ public class GamePlayScene {
 
     private void createMenuBar() {
         Menu menu = new Menu("Menu");
+        menu.setStyle("-fx-background-color: " +GOLD + ";");
 
         MenuItem rulesMenuItem = new MenuItem("Rules");
         MenuItem oddsMenuItem = new MenuItem("Odds");
@@ -68,6 +77,9 @@ public class GamePlayScene {
 
         menu.getItems().addAll(rulesMenuItem, oddsMenuItem, newLookMenuItem, exitMenuItem);
         menuBar = new MenuBar(menu);
+
+
+        menuBar.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
     }
 
     private void createBetCard() {
@@ -75,10 +87,7 @@ public class GamePlayScene {
     }
 
     private void handleDrawingSelection() {
-        // This method is called whenever a drawings toggle button is clicked
         validateStartConditions();
-
-        // Update status message to show drawing selection
         if (drawingsToggleGroup.getSelectedToggle() != null) {
             ToggleButton selectedDrawing = (ToggleButton) drawingsToggleGroup.getSelectedToggle();
             int drawingsCount = Integer.parseInt(selectedDrawing.getText());
@@ -86,16 +95,18 @@ public class GamePlayScene {
                     (betCard.isSelectionValid() ? "Ready to start!" : "Please select your numbers."));
         }
     }
+
     private void createControlPanel() {
         // Spot selection
         Label spotsLabel = new Label("Select Spots:");
-        spotsLabel.setFont(new Font(14));
+        spotsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        spotsLabel.setTextFill(Color.web(WHITE));
 
         spotsToggleGroup = new ToggleGroup();
-        ToggleButton spot1 = new ToggleButton("1");
-        ToggleButton spot4 = new ToggleButton("4");
-        ToggleButton spot8 = new ToggleButton("8");
-        ToggleButton spot10 = new ToggleButton("10");
+        ToggleButton spot1 = createToggleButton("1");
+        ToggleButton spot4 = createToggleButton("4");
+        ToggleButton spot8 = createToggleButton("8");
+        ToggleButton spot10 = createToggleButton("10");
 
         spot1.setToggleGroup(spotsToggleGroup);
         spot4.setToggleGroup(spotsToggleGroup);
@@ -110,22 +121,22 @@ public class GamePlayScene {
         HBox spotsBox = new HBox(10, spotsLabel, spot1, spot4, spot8, spot10);
         spotsBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Drawings selection - FIXED VERSION
+        // Drawings selection
         Label drawingsLabel = new Label("Drawings:");
-        drawingsLabel.setFont(new Font(14));
+        drawingsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        drawingsLabel.setTextFill(Color.web(WHITE));
 
         drawingsToggleGroup = new ToggleGroup();
-        ToggleButton draw1 = new ToggleButton("1");
-        ToggleButton draw2 = new ToggleButton("2");
-        ToggleButton draw3 = new ToggleButton("3");
-        ToggleButton draw4 = new ToggleButton("4");
+        ToggleButton draw1 = createToggleButton("1");
+        ToggleButton draw2 = createToggleButton("2");
+        ToggleButton draw3 = createToggleButton("3");
+        ToggleButton draw4 = createToggleButton("4");
 
         draw1.setToggleGroup(drawingsToggleGroup);
         draw2.setToggleGroup(drawingsToggleGroup);
         draw3.setToggleGroup(drawingsToggleGroup);
         draw4.setToggleGroup(drawingsToggleGroup);
 
-        // Add event handlers for drawing selection
         draw1.setOnAction(e -> handleDrawingSelection());
         draw2.setOnAction(e -> handleDrawingSelection());
         draw3.setOnAction(e -> handleDrawingSelection());
@@ -135,17 +146,17 @@ public class GamePlayScene {
         drawingsBox.setAlignment(Pos.CENTER_LEFT);
 
         // Action buttons
-        autoPickButton = new Button("Auto-pick");
+        autoPickButton = createActionButton("Auto-pick");
         autoPickButton.setOnAction(e -> handleAutoPick());
 
-        startDrawingButton = new Button("Start Drawing");
+        startDrawingButton = createActionButton("Start Drawing");
         startDrawingButton.setOnAction(e -> handleStartDrawing());
         startDrawingButton.setDisable(true);
 
-        resetButton = new Button("Reset");
+        resetButton = createActionButton("Reset");
         resetButton.setOnAction(e -> resetGame());
 
-        nextDrawingButton = new Button("Next Drawing");
+        nextDrawingButton = createActionButton("Next Drawing");
         nextDrawingButton.setOnAction(e -> handleNextDrawing());
         nextDrawingButton.setDisable(true);
 
@@ -154,64 +165,165 @@ public class GamePlayScene {
 
         // Status messages
         statusMessage = new Label("Please select number of spots to begin.");
-        statusMessage.setFont(new Font(14));
-        statusMessage.setStyle("-fx-text-fill: blue;");
+        statusMessage.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        statusMessage.setTextFill(Color.web(GOLD));
 
         selectedSpotsLabel = new Label("Selected: 0/0");
-        selectedSpotsLabel.setFont(new Font(12));
+        selectedSpotsLabel.setFont(Font.font("Arial", 12));
+        selectedSpotsLabel.setTextFill(Color.web(WHITE));
 
         drawingProgressLabel = new Label("");
-        drawingProgressLabel.setFont(new Font(12));
-        drawingProgressLabel.setStyle("-fx-text-fill: darkgreen;");
+        drawingProgressLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        drawingProgressLabel.setTextFill(Color.web(GOLD));
 
         // Combine controls
-        VBox controls = new VBox(10);
+        VBox controls = new VBox(12); // Increased spacing
+        controls.setPadding(new Insets(20));
+        controls.setAlignment(Pos.CENTER); // Center everything
+        controls.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
+                "-fx-border-color: " + BRIGHT_PURPLE + "; " +
+                "-fx-border-width: 2; " +
+                "-fx-border-radius: 8;");
         controls.getChildren().addAll(
                 spotsBox, drawingsBox, actionButtons, statusMessage, selectedSpotsLabel, drawingProgressLabel
         );
-        controls.setPadding(new Insets(15));
-        controls.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-background-color: #f5f5f5;");
 
+        // Make control panel take full width
         controlPanel = new HBox(controls);
+        controlPanel.setAlignment(Pos.CENTER);
+        HBox.setHgrow(controls, Priority.ALWAYS);
+    }
+
+    private ToggleButton createToggleButton(String text) {
+        ToggleButton button = new ToggleButton(text);
+        button.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        button.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
+                "-fx-text-fill: " + WHITE + "; " +
+                "-fx-border-color: " + BRIGHT_PURPLE + "; " +
+                "-fx-border-width: 2; " +
+                "-fx-padding: 5px 10px;");
+
+        // Change style when selected
+        button.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                button.setStyle("-fx-background-color: " + PINK + "; " +
+                        "-fx-text-fill: " + WHITE + "; " +
+                        "-fx-border-color: " + GOLD + "; " +
+                        "-fx-border-width: 2; " +
+                        "-fx-padding: 5px 10px;");
+            } else {
+                button.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
+                        "-fx-text-fill: " + WHITE + "; " +
+                        "-fx-border-color: " + BRIGHT_PURPLE + "; " +
+                        "-fx-border-width: 2; " +
+                        "-fx-padding: 5px 10px;");
+            }
+        });
+
+        return button;
+    }
+
+    private Button createActionButton(String text) {
+        Button button = new Button(text);
+        button.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        button.setStyle("-fx-background-color: " + PINK + "; " +
+                "-fx-text-fill: " + WHITE + "; " +
+                "-fx-padding: 8px 15px;");
+
+        // Style for disabled state
+        button.disabledProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                button.setStyle("-fx-background-color: #666666; " +
+                        "-fx-text-fill: #999999; " +
+                        "-fx-padding: 8px 15px;");
+            } else {
+                button.setStyle("-fx-background-color: " + PINK + "; " +
+                        "-fx-text-fill: " + WHITE + "; " +
+                        "-fx-padding: 8px 15px;");
+            }
+        });
+
+        return button;
     }
 
     private void createResultsPanel() {
         Label resultsTitle = new Label("Drawing Results");
-        resultsTitle.setFont(new Font(16));
-        resultsTitle.setStyle("-fx-font-weight: bold;");
+        resultsTitle.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        resultsTitle.setTextFill(Color.web(GOLD));
+        resultsTitle.setAlignment(Pos.CENTER);
 
         drawnNumbersDisplay = new Label("Drawn Numbers: ");
+        drawnNumbersDisplay.setFont(Font.font("Arial", 12));
+        drawnNumbersDisplay.setTextFill(Color.web(WHITE));
         drawnNumbersDisplay.setWrapText(true);
-        drawnNumbersDisplay.setPrefWidth(200);
+        drawnNumbersDisplay.setPrefWidth(220);
+        drawnNumbersDisplay.setAlignment(Pos.TOP_LEFT);
 
         matchesDisplay = new Label("Matches: ");
+        matchesDisplay.setFont(Font.font("Arial", 12));
+        matchesDisplay.setTextFill(Color.web(WHITE));
         matchesDisplay.setWrapText(true);
+        matchesDisplay.setAlignment(Pos.TOP_LEFT);
 
         winsDisplay = new Label("This Drawing: $0.00");
-        winsDisplay.setStyle("-fx-font-weight: bold;");
+        winsDisplay.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        winsDisplay.setTextFill(Color.web(GOLD));
+        winsDisplay.setAlignment(Pos.CENTER);
 
         totalWinsDisplay = new Label("Total Won: $0.00");
-        totalWinsDisplay.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+        totalWinsDisplay.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        totalWinsDisplay.setTextFill(Color.web(GOLD));
+        totalWinsDisplay.setAlignment(Pos.CENTER);
 
-        VBox resultsContent = new VBox(8, resultsTitle, drawnNumbersDisplay, matchesDisplay, winsDisplay, totalWinsDisplay);
+        VBox resultsContent = new VBox(10, resultsTitle, drawnNumbersDisplay, matchesDisplay, winsDisplay, totalWinsDisplay);
         resultsContent.setPadding(new Insets(15));
+        resultsContent.setAlignment(Pos.TOP_CENTER);
 
         resultsPanel = new VBox(resultsContent);
-        resultsPanel.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-background-color: #f0f0f0;");
+        resultsPanel.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
+                "-fx-border-color: " + BRIGHT_PURPLE + "; " +
+                "-fx-border-width: 2; " +
+                "-fx-border-radius: 8;");
         resultsPanel.setPrefWidth(250);
+        resultsPanel.setAlignment(Pos.TOP_CENTER);
     }
 
     private void setupLayout() {
-        // Main content area
-        HBox mainContent = new HBox(20);
-        mainContent.setPadding(new Insets(15));
-        mainContent.getChildren().addAll(betCard.getGridPane(), resultsPanel);
+        // Main content area - use BorderPane for better layout control
+        BorderPane mainContent = new BorderPane();
+        mainContent.setPadding(new Insets(10));
+
+        // Left: Bet Card
+        VBox betCardContainer = new VBox();
+        betCardContainer.setAlignment(Pos.TOP_CENTER);
+        betCardContainer.setPadding(new Insets(10));
+        betCardContainer.getChildren().add(betCard.getGridPane());
+
+        // Right: Results Panel
+        VBox resultsContainer = new VBox();
+        resultsContainer.setAlignment(Pos.TOP_CENTER);
+        resultsContainer.setPadding(new Insets(10));
+        resultsContainer.getChildren().add(resultsPanel);
+
+        // Center the main content
+        HBox centerContent = new HBox(20);
+        centerContent.setAlignment(Pos.CENTER);
+        centerContent.getChildren().addAll(betCardContainer, resultsContainer);
+        mainContent.setCenter(centerContent);
+
+        // Top: Control Panel
+        VBox topContainer = new VBox();
+        topContainer.setAlignment(Pos.CENTER);
+        topContainer.getChildren().add(controlPanel);
+        mainContent.setTop(topContainer);
 
         // Root layout
         rootLayout = new VBox();
-        rootLayout.getChildren().addAll(menuBar, controlPanel, mainContent);
+        rootLayout.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
+        rootLayout.getChildren().addAll(menuBar, mainContent);
     }
 
+    //game logic
     private void handleSpotSelection(int spots) {
         gameState.setPlayerSpots(spots);
         betCard.enableSelection(spots);
@@ -225,7 +337,7 @@ public class GamePlayScene {
             return;
         }
         betCard.quickPick();
-        gameState.setPlayerNumbers(betCard.getSelectedNumbers()); // This line was missing!
+        gameState.setPlayerNumbers(betCard.getSelectedNumbers());
         updateStatusMessage("Auto-pick completed! " + betCard.getSelectedCount() + "/" + gameState.getPlayerSpots() + " numbers selected.");
         validateStartConditions();
     }
@@ -233,56 +345,43 @@ public class GamePlayScene {
     private void handleStartDrawing() {
         if (drawingInProgress) return;
 
-        // Get selected drawings count
         ToggleButton selectedDrawing = (ToggleButton) drawingsToggleGroup.getSelectedToggle();
         int drawingsCount = Integer.parseInt(selectedDrawing.getText());
 
-        // Set up game state
         gameState.startNewDrawingSession(drawingsCount);
         gameState.setPlayerNumbers(betCard.getSelectedNumbers());
 
-        // Disable controls during drawing
         setControlsDisabled(true);
         drawingInProgress = true;
-
-        // Start the first drawing
         startNextDrawing();
     }
 
     private void startNextDrawing() {
         drawingProgressLabel.setText("Drawing " + gameState.getCurrentDrawingNumber() + " of " + gameState.getTotalDrawings());
-
-        // Clear previous results
         drawnNumbersDisplay.setText("Drawn Numbers: Drawing...");
         matchesDisplay.setText("Matches: ");
         winsDisplay.setText("This Drawing: $0.00");
-
-        // Run drawing with animation
         animateDrawing();
     }
 
     private void animateDrawing() {
         Set<Integer> drawnNumbers = gameState.runDrawing();
         List<Integer> drawnList = new ArrayList<>(drawnNumbers);
-        Collections.shuffle(drawnList); // Randomize display order
+        Collections.shuffle(drawnList);
 
-        // Display numbers one by one with pauses
         new Thread(() -> {
             StringBuilder displayedNumbers = new StringBuilder("Drawn Numbers: ");
 
             for (int i = 0; i < drawnList.size(); i++) {
                 int number = drawnList.get(i);
-                final int currentIndex = i;
                 final String currentDisplay = displayedNumbers.toString() + number;
 
-                // Update UI on JavaFX thread
                 Platform.runLater(() -> {
                     drawnNumbersDisplay.setText(currentDisplay);
                 });
 
-                // Pause between numbers
                 try {
-                    Thread.sleep(500); // 500ms pause between numbers
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -292,7 +391,6 @@ public class GamePlayScene {
                 }
             }
 
-            // After all numbers are drawn, show results
             Platform.runLater(() -> {
                 showDrawingResults();
             });
@@ -303,27 +401,22 @@ public class GamePlayScene {
         Set<Integer> matches = gameState.getMatches();
         double winnings = gameState.calculateWinnings(matches.size());
 
-        // Highlight matches on bet card
         betCard.highlightMatches(gameState.getCurrentDrawnNumbers());
 
-        // Update results display
         matchesDisplay.setText("Matches: " + matches.size() + " (" + matches + ")");
         winsDisplay.setText("This Drawing: $" + String.format("%.2f", winnings));
         totalWinsDisplay.setText("Total Won: $" + String.format("%.2f", gameState.getTotalWinnings()));
 
-        // Update status message
         if (matches.size() > 0) {
             updateStatusMessage("Congratulations! You matched " + matches.size() + " numbers and won $" + String.format("%.2f", winnings) + "!");
         } else {
             updateStatusMessage("No matches this drawing. Better luck next time!");
         }
 
-        // Enable next drawing button if there are more drawings
         if (gameState.hasMoreDrawings()) {
             nextDrawingButton.setDisable(false);
             drawingProgressLabel.setText("Ready for next drawing. Click 'Next Drawing'.");
         } else {
-            // All drawings complete
             drawingProgressLabel.setText("All drawings complete! Total winnings: $" + String.format("%.2f", gameState.getTotalWinnings()));
             nextDrawingButton.setDisable(true);
             startDrawingButton.setDisable(true);
@@ -350,7 +443,6 @@ public class GamePlayScene {
         setControlsDisabled(false);
         drawingInProgress = false;
 
-        // Clear results display
         drawnNumbersDisplay.setText("Drawn Numbers: ");
         matchesDisplay.setText("Matches: ");
         winsDisplay.setText("This Drawing: $0.00");
@@ -385,8 +477,6 @@ public class GamePlayScene {
             statusMessage.setText("Ready to start drawing! Click 'Start Drawing'.");
         } else {
             startDrawingButton.setDisable(true);
-
-            // Provide helpful message about what's missing
             if (!spotsSelected) {
                 statusMessage.setText("Please select number of spots to begin.");
             } else if (!numbersSelected) {
@@ -411,6 +501,10 @@ public class GamePlayScene {
                 "4. Watch as 20 numbers are drawn one by one\n" +
                 "5. Win based on how many numbers you match!\n\n" +
                 "Payouts based on North Carolina State Lottery rules.");
+
+        DialogPane dialogPane = rulesAlert.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
+                "-fx-text-fill: " + WHITE + ";");
         rulesAlert.showAndWait();
     }
 
@@ -438,19 +532,25 @@ public class GamePlayScene {
                 "• Match 8: $500\n" +
                 "• Match 9: $5,000\n" +
                 "• Match 10: $25,000");
+
+        DialogPane dialogPane = oddsAlert.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
+                "-fx-text-fill: " + WHITE + ";");
         oddsAlert.showAndWait();
     }
 
     private void applyNewLook() {
-        // Simple color change for now - can be enhanced
-        if (rootLayout.getStyle().contains("lightblue")) {
-            rootLayout.setStyle("-fx-background-color: white;");
-            resultsPanel.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-background-color: #f0f0f0;");
-            controlPanel.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-background-color: #f5f5f5;");
+        // Simple toggle between two color schemes
+        if (rootLayout.getStyle().contains(DARK_PURPLE)) {
+            // Switch to alternative scheme
+            rootLayout.setStyle("-fx-background-color: #1a1a2e;");
+            controlPanel.setStyle("-fx-background-color: #16213e; -fx-border-color: #0f3460; -fx-border-width: 2; -fx-border-radius: 8;");
+            resultsPanel.setStyle("-fx-background-color: #16213e; -fx-border-color: #0f3460; -fx-border-width: 2; -fx-border-radius: 8;");
         } else {
-            rootLayout.setStyle("-fx-background-color: lightblue;");
-            resultsPanel.setStyle("-fx-border-color: darkblue; -fx-border-width: 2; -fx-background-color: #e6f3ff;");
-            controlPanel.setStyle("-fx-border-color: darkblue; -fx-border-width: 2; -fx-background-color: #e6f3ff;");
+            // Switch back to original scheme
+            rootLayout.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
+            controlPanel.setStyle("-fx-background-color: " + DARK_PURPLE + "; -fx-border-color: " + BRIGHT_PURPLE + "; -fx-border-width: 2; -fx-border-radius: 8;");
+            resultsPanel.setStyle("-fx-background-color: " + DARK_PURPLE + "; -fx-border-color: " + BRIGHT_PURPLE + "; -fx-border-width: 2; -fx-border-radius: 8;");
         }
     }
 
