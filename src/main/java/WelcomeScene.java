@@ -8,6 +8,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
 
 public class WelcomeScene {
     private Scene scene;
@@ -42,22 +44,47 @@ public class WelcomeScene {
     }
 
     private void createMenuBar() {
-        Menu menu = new Menu("Menu");
-        menu.setStyle("-fx-background-color: " +GOLD + ";");
-        MenuItem rulesMenuItem = new MenuItem("Rules");
-        MenuItem oddsMenuItem = new MenuItem("Odds");
+        Menu mainMenu = new Menu("Menu");
+        mainMenu.setStyle("-fx-background-color:" + GOLD + ";");
+
+        // Game actions
+        MenuItem startMenuItem = new MenuItem("Start Game");
         MenuItem exitMenuItem = new MenuItem("Exit");
 
+        // Info actions
+        MenuItem rulesMenuItem = new MenuItem("Rules");
+        MenuItem oddsMenuItem = new MenuItem("Odds");
+
+        // Add actions
+        startMenuItem.setOnAction(e -> switchToGamePlay());
+        exitMenuItem.setOnAction(e -> System.exit(0));
         rulesMenuItem.setOnAction(e -> showRules());
         oddsMenuItem.setOnAction(e -> showOdds());
-        exitMenuItem.setOnAction(e -> System.exit(0));
 
-        menu.getItems().addAll(rulesMenuItem, oddsMenuItem, exitMenuItem);
-        menuBar = new MenuBar(menu);
+        // Organize visually
+        mainMenu.getItems().addAll(
+                startMenuItem,
+                new SeparatorMenuItem(),
+                rulesMenuItem,
+                oddsMenuItem,
+                new SeparatorMenuItem(),
+                exitMenuItem
+        );
 
-        // Style the menu bar
-        menuBar.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
+        // Create menu bar
+        menuBar = new MenuBar(mainMenu);
+
+        // Style menu bar
+        menuBar.setStyle(
+                "-fx-background-color: " + DARK_PURPLE + ";" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-padding: 5px;" +
+                        "-fx-selection-bar: " + BRIGHT_PURPLE + ";" +
+                        "-fx-text-fill: white;"
+        );
     }
+
+
 
     private void createContent() {
         // Title with your colors and Arial Bold
@@ -107,75 +134,150 @@ public class WelcomeScene {
     }
 
     private void setupLayout() {
-        // Main content container
-        VBox contentBox = new VBox(40);
-        contentBox.setAlignment(Pos.CENTER);
-        contentBox.setPadding(new Insets(50));
-        contentBox.setStyle("-fx-background-color: " + DARK_PURPLE + "; " +
-                "-fx-border-color: " + BRIGHT_PURPLE + "; " +
-                "-fx-border-width: 5; " +
-                "-fx-border-radius:45; " +
-                "-fx-background-radius: 10;");
-        contentBox.setMaxWidth(500);
-        contentBox.getChildren().addAll(titleLabel, messageArea, startButton, totalWinsLabel);
+        // Title box – adds spacing below title
+        VBox titleBox = new VBox(titleLabel);
+        titleBox.setAlignment(Pos.CENTER);
+        titleBox.setPadding(new Insets(10, 0, 10, 0));
 
-        // Main layout - simple and centered
-        rootLayout = new VBox();
+        // Message area container – adds padding
+        VBox messageBox = new VBox(messageArea);
+        messageBox.setAlignment(Pos.CENTER);
+        messageBox.setPadding(new Insets(10, 20, 10, 20));
+
+        // Button box – centers and adds spacing
+        VBox buttonBox = new VBox(startButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20, 0, 10, 0));
+
+        // Wins label box
+        VBox winsBox = new VBox(totalWinsLabel);
+        winsBox.setAlignment(Pos.CENTER);
+        winsBox.setPadding(new Insets(5, 0, 10, 0));
+
+        // Main content frame
+        VBox contentBox = new VBox(20); // spacing between elements
+        contentBox.setAlignment(Pos.CENTER);
+        contentBox.setPadding(new Insets(40));
+        contentBox.setStyle(
+                "-fx-background-color: " + DARK_PURPLE + ";" +
+                        "-fx-border-color: " + BRIGHT_PURPLE + ";" +
+                        "-fx-border-width: 5;" +
+                        "-fx-border-radius: 25;" +
+                        "-fx-background-radius: 25;"
+        );
+        contentBox.setMaxWidth(600);
+
+        contentBox.getChildren().addAll(titleBox, messageBox, buttonBox, winsBox);
+
+        // Root layout
+        rootLayout = new VBox(10);
         rootLayout.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
-        rootLayout.setAlignment(Pos.CENTER);
-        rootLayout.setPadding(new Insets(20));
+        rootLayout.setAlignment(Pos.TOP_CENTER);
+        rootLayout.setPadding(new Insets(10, 0, 0, 0));
         rootLayout.getChildren().addAll(menuBar, contentBox);
     }
 
-    private void showRules() {
-        Alert rulesAlert = new Alert(Alert.AlertType.INFORMATION);
-        rulesAlert.setTitle("Keno Rules");
-        rulesAlert.setHeaderText("How to Play Keno");
-        rulesAlert.setContentText("1. Choose how many spots to play (1, 4, 8, or 10 numbers)\n" +
-                "2. Select your numbers on the bet card or use Auto-pick\n" +
-                "3. Choose how many drawings to play (1-4)\n" +
-                "4. Watch as 20 numbers are drawn\n" +
-                "5. Win based on how many numbers you match!\n\n" +
-                "Payouts based on North Carolina State Lottery rules.");
 
-        // Style the alert dialog with your colors
-        DialogPane dialogPane = rulesAlert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
-                "-fx-text-fill: " + WHITE + ";");
-        rulesAlert.showAndWait();
+    private void showRules() {
+        Stage rulesWindow = new Stage();
+        rulesWindow.setTitle("Keno Rules");
+
+        Label header = new Label("How to Play Keno");
+        header.setFont(Font.font("Arial", FontWeight.BOLD, 22));
+        header.setTextFill(Color.web(GOLD));
+
+        TextArea rulesText = new TextArea(
+                "1. Choose how many spots to play (1, 4, 8, or 10 numbers)\n" +
+                        "2. Select your numbers or use Auto-pick\n" +
+                        "3. Choose how many drawings to play (1-4)\n" +
+                        "4. Watch as 20 numbers are drawn\n" +
+                        "5. Win based on how many numbers you match\n"
+        );
+        rulesText.setWrapText(true);
+        rulesText.setEditable(false);
+        rulesText.setStyle("-fx-control-inner-background: " + DARK_PURPLE + ";" +
+                "-fx-text-fill: white; -fx-font-size: 14px;");
+
+        Button closeButton = new Button("Close");
+        closeButton.setStyle(
+                "-fx-background-color: " + PINK + ";" +
+                        "-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;"
+        );
+        closeButton.setOnAction(e -> rulesWindow.close());
+
+        VBox layout = new VBox(15, header, rulesText, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.setStyle(
+                "-fx-background-color: " + BRIGHT_PURPLE + ";" +
+                        "-fx-border-color: " + GOLD + "; -fx-border-width: 4px;"
+        );
+
+        Scene scene = new Scene(layout, 450, 350);
+        rulesWindow.setScene(scene);
+        rulesWindow.show(); // Floating window
     }
 
     private void showOdds() {
-        Alert oddsAlert = new Alert(Alert.AlertType.INFORMATION);
-        oddsAlert.setTitle("Winning Odds");
-        oddsAlert.setHeaderText("Keno Payouts and Odds");
-        oddsAlert.setContentText("Spot 1:\n" +
-                "• Match 1: $2\n\n" +
-                "Spot 4:\n" +
-                "• Match 2: $1\n" +
-                "• Match 3: $5\n" +
-                "• Match 4: $75\n\n" +
-                "Spot 8:\n" +
-                "• Match 4: $2\n" +
-                "• Match 5: $12\n" +
-                "• Match 6: $50\n" +
-                "• Match 7: $750\n" +
-                "• Match 8: $10,000\n\n" +
-                "Spot 10:\n" +
-                "• Match 0: $5\n" +
-                "• Match 5: $2\n" +
-                "• Match 6: $15\n" +
-                "• Match 7: $100\n" +
-                "• Match 8: $500\n" +
-                "• Match 9: $5,000\n" +
-                "• Match 10: $25,000");
+        Stage oddsWindow = new Stage();
+        oddsWindow.setTitle("Keno Odds & Payouts");
 
-        // Style the alert dialog with your colors
-        DialogPane dialogPane = oddsAlert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
-                "-fx-text-fill: " + WHITE + ";");
-        oddsAlert.showAndWait();
+        Label header = new Label("Keno Winning Odds & Payouts");
+        header.setFont(Font.font("Arial", FontWeight.BOLD, 22));
+        header.setTextFill(Color.web(GOLD));
+
+        TextArea oddsText = new TextArea(
+                "SPOT 1:\n" +
+                        "  Match 1 → $2\n\n" +
+
+                        "SPOT 4:\n" +
+                        "  Match 2 → $1\n" +
+                        "  Match 3 → $5\n" +
+                        "  Match 4 → $75\n\n" +
+
+                        "SPOT 8:\n" +
+                        "  Match 4 → $2\n" +
+                        "  Match 5 → $12\n" +
+                        "  Match 6 → $50\n" +
+                        "  Match 7 → $750\n" +
+                        "  Match 8 → $10,000\n\n" +
+
+                        "SPOT 10:\n" +
+                        "  Match 0 → $5\n" +
+                        "  Match 5 → $2\n" +
+                        "  Match 6 → $15\n" +
+                        "  Match 7 → $100\n" +
+                        "  Match 8 → $500\n" +
+                        "  Match 9 → $5,000\n" +
+                        "  Match 10 → $25,000"
+        );
+        oddsText.setWrapText(true);
+        oddsText.setEditable(false);
+        oddsText.setStyle(
+                "-fx-control-inner-background: " + DARK_PURPLE + ";" +
+                        "-fx-text-fill: white; -fx-font-size: 14px;"
+        );
+
+        Button closeButton = new Button("Close");
+        closeButton.setStyle(
+                "-fx-background-color: " + PINK + ";" +
+                        "-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;"
+        );
+        closeButton.setOnAction(e -> oddsWindow.close());
+
+        VBox layout = new VBox(15, header, oddsText, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.setStyle(
+                "-fx-background-color: " + BRIGHT_PURPLE + ";" +
+                        "-fx-border-color: " + GOLD + "; -fx-border-width: 4px;"
+        );
+
+        Scene scene = new Scene(layout, 450, 450);
+        oddsWindow.setScene(scene);
+        oddsWindow.show();
     }
+
 
     private void switchToGamePlay() {
         mainApp.switchToGamePlayScene();

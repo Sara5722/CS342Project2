@@ -9,6 +9,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.*;
+import javafx.stage.Stage;
 
 public class GamePlayScene {
     private Scene scene;
@@ -62,25 +63,42 @@ public class GamePlayScene {
     }
 
     private void createMenuBar() {
-        Menu menu = new Menu("Menu");
-        menu.setStyle("-fx-background-color: " +GOLD + ";");
-
+        // Main "Menu" dropdown
+        Menu mainMenu = new Menu("Menu");
+        mainMenu.setStyle("-fx-background-color:" + GOLD + ";");
+        // Menu items
         MenuItem rulesMenuItem = new MenuItem("Rules");
         MenuItem oddsMenuItem = new MenuItem("Odds");
         MenuItem newLookMenuItem = new MenuItem("New Look");
         MenuItem exitMenuItem = new MenuItem("Exit");
 
+        // Actions
         rulesMenuItem.setOnAction(e -> showRules());
         oddsMenuItem.setOnAction(e -> showOdds());
-        newLookMenuItem.setOnAction(e -> applyNewLook());
+        newLookMenuItem.setOnAction(e -> applyNewLook()); // We'll fix this next
         exitMenuItem.setOnAction(e -> System.exit(0));
 
-        menu.getItems().addAll(rulesMenuItem, oddsMenuItem, newLookMenuItem, exitMenuItem);
-        menuBar = new MenuBar(menu);
+        // Organize Menu Items
+        mainMenu.getItems().addAll(
+                rulesMenuItem,
+                oddsMenuItem,
+                new SeparatorMenuItem(),
+                newLookMenuItem,
+                new SeparatorMenuItem(),
+                exitMenuItem
+        );
 
-
-        menuBar.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
+        // Create MenuBar
+        menuBar = new MenuBar(mainMenu);
+        menuBar.setStyle(
+                "-fx-background-color: " + DARK_PURPLE + ";" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-padding: 5px;" +
+                        "-fx-selection-bar: " + BRIGHT_PURPLE + ";" +
+                        "-fx-text-fill: white;"
+        );
     }
+
 
     private void createBetCard() {
         betCard = new BetCard();
@@ -492,66 +510,149 @@ public class GamePlayScene {
     }
 
     private void showRules() {
-        Alert rulesAlert = new Alert(Alert.AlertType.INFORMATION);
-        rulesAlert.setTitle("Keno Rules");
-        rulesAlert.setHeaderText("How to Play Keno");
-        rulesAlert.setContentText("1. Choose how many spots to play (1, 4, 8, or 10 numbers)\n" +
-                "2. Select your numbers on the bet card or use Auto-pick\n" +
-                "3. Choose how many drawings to play (1-4)\n" +
-                "4. Watch as 20 numbers are drawn one by one\n" +
-                "5. Win based on how many numbers you match!\n\n" +
-                "Payouts based on North Carolina State Lottery rules.");
+        Stage rulesWindow = new Stage();
+        rulesWindow.setTitle("Keno Rules");
 
-        DialogPane dialogPane = rulesAlert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
-                "-fx-text-fill: " + WHITE + ";");
-        rulesAlert.showAndWait();
+        Label header = new Label("How to Play Keno");
+        header.setFont(Font.font("Arial", FontWeight.BOLD, 22));
+        header.setTextFill(Color.web(GOLD));
+
+        TextArea rulesText = new TextArea(
+                "1. Choose how many spots to play (1, 4, 8, or 10 numbers)\n" +
+                        "2. Select your numbers or use Auto-pick\n" +
+                        "3. Choose how many drawings to play (1-4)\n" +
+                        "4. Watch as 20 numbers are drawn\n" +
+                        "5. Win based on how many numbers you match\n"
+        );
+        rulesText.setWrapText(true);
+        rulesText.setEditable(false);
+        rulesText.setStyle("-fx-control-inner-background: " + DARK_PURPLE + ";" +
+                "-fx-text-fill: white; -fx-font-size: 14px;");
+
+        Button closeButton = new Button("Close");
+        closeButton.setStyle(
+                "-fx-background-color: " + PINK + ";" +
+                        "-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;"
+        );
+        closeButton.setOnAction(e -> rulesWindow.close());
+
+        VBox layout = new VBox(15, header, rulesText, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.setStyle(
+                "-fx-background-color: " + BRIGHT_PURPLE + ";" +
+                        "-fx-border-color: " + GOLD + "; -fx-border-width: 4px;"
+        );
+
+        Scene scene = new Scene(layout, 450, 350);
+        rulesWindow.setScene(scene);
+        rulesWindow.show(); // Floating window
     }
 
     private void showOdds() {
-        Alert oddsAlert = new Alert(Alert.AlertType.INFORMATION);
-        oddsAlert.setTitle("Winning Odds");
-        oddsAlert.setHeaderText("Keno Payouts and Odds");
-        oddsAlert.setContentText("Spot 1:\n" +
-                "• Match 1: $2\n\n" +
-                "Spot 4:\n" +
-                "• Match 2: $1\n" +
-                "• Match 3: $5\n" +
-                "• Match 4: $75\n\n" +
-                "Spot 8:\n" +
-                "• Match 4: $2\n" +
-                "• Match 5: $12\n" +
-                "• Match 6: $50\n" +
-                "• Match 7: $750\n" +
-                "• Match 8: $10,000\n\n" +
-                "Spot 10:\n" +
-                "• Match 0: $5\n" +
-                "• Match 5: $2\n" +
-                "• Match 6: $15\n" +
-                "• Match 7: $100\n" +
-                "• Match 8: $500\n" +
-                "• Match 9: $5,000\n" +
-                "• Match 10: $25,000");
+        Stage oddsWindow = new Stage();
+        oddsWindow.setTitle("Keno Odds & Payouts");
 
-        DialogPane dialogPane = oddsAlert.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: " + BRIGHT_PURPLE + "; " +
-                "-fx-text-fill: " + WHITE + ";");
-        oddsAlert.showAndWait();
+        Label header = new Label("Keno Winning Odds & Payouts");
+        header.setFont(Font.font("Arial", FontWeight.BOLD, 22));
+        header.setTextFill(Color.web(GOLD));
+
+        TextArea oddsText = new TextArea(
+                "SPOT 1:\n" +
+                        "  Match 1 → $2\n\n" +
+
+                        "SPOT 4:\n" +
+                        "  Match 2 → $1\n" +
+                        "  Match 3 → $5\n" +
+                        "  Match 4 → $75\n\n" +
+
+                        "SPOT 8:\n" +
+                        "  Match 4 → $2\n" +
+                        "  Match 5 → $12\n" +
+                        "  Match 6 → $50\n" +
+                        "  Match 7 → $750\n" +
+                        "  Match 8 → $10,000\n\n" +
+
+                        "SPOT 10:\n" +
+                        "  Match 0 → $5\n" +
+                        "  Match 5 → $2\n" +
+                        "  Match 6 → $15\n" +
+                        "  Match 7 → $100\n" +
+                        "  Match 8 → $500\n" +
+                        "  Match 9 → $5,000\n" +
+                        "  Match 10 → $25,000"
+        );
+        oddsText.setWrapText(true);
+        oddsText.setEditable(false);
+        oddsText.setStyle(
+                "-fx-control-inner-background: " + DARK_PURPLE + ";" +
+                        "-fx-text-fill: white; -fx-font-size: 14px;"
+        );
+
+        Button closeButton = new Button("Close");
+        closeButton.setStyle(
+                "-fx-background-color: " + PINK + ";" +
+                        "-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;"
+        );
+        closeButton.setOnAction(e -> oddsWindow.close());
+
+        VBox layout = new VBox(15, header, oddsText, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.setStyle(
+                "-fx-background-color: " + BRIGHT_PURPLE + ";" +
+                        "-fx-border-color: " + GOLD + "; -fx-border-width: 4px;"
+        );
+
+        Scene scene = new Scene(layout, 450, 450);
+        oddsWindow.setScene(scene);
+        oddsWindow.show();
     }
 
+
+    private Integer currentColorScheme = 0;
+
     private void applyNewLook() {
-        // Simple toggle between two color schemes
-        if (rootLayout.getStyle().contains(DARK_PURPLE)) {
-            // Switch to alternative scheme
-            rootLayout.setStyle("-fx-background-color: #1a1a2e;");
-            controlPanel.setStyle("-fx-background-color: #16213e; -fx-border-color: #0f3460; -fx-border-width: 2; -fx-border-radius: 8;");
-            resultsPanel.setStyle("-fx-background-color: #16213e; -fx-border-color: #0f3460; -fx-border-width: 2; -fx-border-radius: 8;");
-        } else {
-            // Switch back to original scheme
-            rootLayout.setStyle("-fx-background-color: " + DARK_PURPLE + ";");
-            controlPanel.setStyle("-fx-background-color: " + DARK_PURPLE + "; -fx-border-color: " + BRIGHT_PURPLE + "; -fx-border-width: 2; -fx-border-radius: 8;");
-            resultsPanel.setStyle("-fx-background-color: " + DARK_PURPLE + "; -fx-border-color: " + BRIGHT_PURPLE + "; -fx-border-width: 2; -fx-border-radius: 8;");
+        if (currentColorScheme == null) {
+            currentColorScheme = 0;
         }
+
+        currentColorScheme = (currentColorScheme + 1) % 4; // Cycle through 4 schemes
+
+        switch (currentColorScheme) {
+            case 0: // Original Purple
+                setBackgroundColors(DARK_PURPLE, BRIGHT_PURPLE);
+                break;
+            case 1: // Blue
+                setBackgroundColors("#1a1a2e", "#0f3460");
+                break;
+            case 2: // Green
+                setBackgroundColors("#1b4332", "#2d6a4f");
+                break;
+            case 3: // Warm
+                setBackgroundColors("#3d348b", "#7678ed");
+                break;
+        }
+    }
+
+    private void setBackgroundColors(String bgColor, String borderColor) {
+        // Root background
+        rootLayout.setStyle("-fx-background-color: " + bgColor + ";");
+
+        // Control Panel background
+        if (controlPanel.getChildren().size() > 0) {
+            VBox controls = (VBox) controlPanel.getChildren().get(0);
+            controls.setStyle("-fx-background-color: " + bgColor + "; " +
+                    "-fx-border-color: " + borderColor + "; " +
+                    "-fx-border-width: 2; " +
+                    "-fx-border-radius: 8;");
+        }
+
+        // Results Panel background
+        resultsPanel.setStyle("-fx-background-color: " + bgColor + "; " +
+                "-fx-border-color: " + borderColor + "; " +
+                "-fx-border-width: 2; " +
+                "-fx-border-radius: 8;");
     }
 
     public Scene getScene() {
