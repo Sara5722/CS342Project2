@@ -1,20 +1,5 @@
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//import org.junit.jupiter.api.Test;
-//
-//import org.junit.jupiter.api.DisplayName;
-//
-//import org.junit.jupiter.params.ParameterizedTest;
-//import org.junit.jupiter.params.provider.ValueSource;
-//
-//class MyTest {
-//
-//	@Test
-//	void test() {
-//		fail("Not yet implemented");
-//	}
-//
-//}
+// Author: Sara Alaidroos, salai3, salai3@uic.edu
+// Author: Teresa Chirayil, tchir3, tchir3@uic.edu
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,10 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * JUnit 5 Test Suite for GameState
- * Tests game state management, drawing logic, and winnings calculations
- */
+//Tests game state management, drawing logic, and winnings calculations
+
 class GameStateTest {
 
     private GameState gameState;
@@ -37,7 +20,7 @@ class GameStateTest {
         gameState = new GameState();
     }
 
-    // ==================== Initial State Tests ====================
+    // Initial State Tests
 
     @Test
     @DisplayName("Test initial state has zero winnings")
@@ -90,7 +73,7 @@ class GameStateTest {
                 "Current drawing winnings should be 0.0 initially");
     }
 
-    // ==================== Reset Tests ====================
+    // Reset Tests
 
     @Test
     @DisplayName("Test reset for new game clears all state")
@@ -138,7 +121,7 @@ class GameStateTest {
         assertEquals(0.0, gameState.getCurrentDrawingWinnings(), "Current winnings should be reset");
     }
 
-    // ==================== Drawing Logic Tests ====================
+    //  Drawing Logic Tests
 
     @Test
     @DisplayName("Test run drawing produces exactly 20 numbers")
@@ -220,7 +203,7 @@ class GameStateTest {
                 "Multiple drawings should produce different results (extremely high probability)");
     }
 
-    // ==================== Match Calculation Tests ====================
+    // Match Calculation Tests
 
     @Test
     @DisplayName("Test get matches with no matches")
@@ -312,7 +295,7 @@ class GameStateTest {
         assertEquals(0, matches.size(), "Should have no matches with empty drawn numbers");
     }
 
-    // ==================== Winnings Calculation Tests - Spot 1 ====================
+    // Winnings Calculation Tests - Spot 1
 
     @Test
     @DisplayName("Spot 1: Test 0 matches pays $0")
@@ -336,7 +319,7 @@ class GameStateTest {
                 "Total winnings should be $2");
     }
 
-    // ==================== Winnings Calculation Tests - Spot 4 ====================
+    // Winnings Calculation Tests - Spot 4
 
     @Test
     @DisplayName("Spot 4: Test 0 matches pays $0")
@@ -378,7 +361,7 @@ class GameStateTest {
         assertEquals(75.0, winnings, "Spot 4 with 4 matches should pay $75");
     }
 
-    // ==================== Winnings Calculation Tests - Spot 8 ====================
+    // Winnings Calculation Tests - Spot 8
 
     @Test
     @DisplayName("Spot 8: Test 0 matches pays $0")
@@ -428,7 +411,7 @@ class GameStateTest {
         assertEquals(10000.0, winnings, "Spot 8 with 8 matches should pay $10,000");
     }
 
-    // ==================== Winnings Calculation Tests - Spot 10 ====================
+    // Winnings Calculation Tests - Spot 10
 
     @Test
     @DisplayName("Spot 10: Test 0 matches pays $5")
@@ -486,7 +469,7 @@ class GameStateTest {
         assertEquals(25000.0, winnings, "Spot 10 with 10 matches should pay $25,000");
     }
 
-    // ==================== Total Winnings Accumulation Tests ====================
+    //  Total Winnings Accumulation Tests
 
     @Test
     @DisplayName("Test total winnings accumulates over multiple calculations")
@@ -536,7 +519,7 @@ class GameStateTest {
                 "Current drawing winnings should be updated to $750");
     }
 
-    // ==================== Has More Drawings Tests ====================
+    // Has More Drawings Tests
 
     @Test
     @DisplayName("Test has more drawings returns true when drawings remain")
@@ -580,7 +563,7 @@ class GameStateTest {
                 "Should be on drawing 1");
     }
 
-    // ==================== Setter and Getter Tests ====================
+    //  Setter and Getter Tests
 
     @Test
     @DisplayName("Test set and get total winnings")
@@ -652,7 +635,7 @@ class GameStateTest {
                 "Should get the current drawing winnings that was set");
     }
 
-    // ==================== Integration Tests ====================
+    //  Integration Tests
 
     @Test
     @DisplayName("Test complete game flow simulation")

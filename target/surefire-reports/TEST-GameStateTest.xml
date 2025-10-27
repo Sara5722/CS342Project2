@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="GameStateTest" time="0.094" tests="58" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="sun.desktop" value="windows"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\tchir3\Downloads\HomeworkOne\CS342Project_2\target\test-classes;C:\Users\tchir3\Downloads\HomeworkOne\CS342Project_2\target\classes;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.1\junit-jupiter-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.1\junit-jupiter-api-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\tchir3\.m2\repository\org\junit\platform\junit-platform-commons\1.9.1\junit-platform-commons-1.9.1.jar;C:\Users\tchir3\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.1\junit-jupiter-params-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.1\junit-jupiter-engine-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\junit\platform\junit-platform-engine\1.9.1\junit-platform-engine-1.9.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-controls\19.0.2.1\javafx-controls-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-controls\19.0.2.1\javafx-controls-19.0.2.1-win.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-graphics\19.0.2.1\javafx-graphics-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-graphics\19.0.2.1\javafx-graphics-19.0.2.1-win.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-base\19.0.2.1\javafx-base-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-base\19.0.2.1\javafx-base-19.0.2.1-win.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-fxml\19.0.2.1\javafx-fxml-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-fxml\19.0.2.1\javafx-fxml-19.0.2.1-win.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="America/Chicago"/>
+    <property name="java.vm.specification.version" value="11"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Users\tchir3\Downloads\jdk-11.0.28_windows-x64_bin\jdk-11.0.28\bin"/>
+    <property name="sun.java.command" value="C:\Users\tchir3\AppData\Local\Temp\surefire9213953117129049416\surefirebooter3888525863507158892.jar C:\Users\tchir3\AppData\Local\Temp\surefire9213953117129049416 2025-10-26T20-05-37_729-jvmRun1 surefire1822893936635437277tmp surefire_016409904888891525871tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\tchir3\Downloads\HomeworkOne\CS342Project_2\target\test-classes;C:\Users\tchir3\Downloads\HomeworkOne\CS342Project_2\target\classes;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.1\junit-jupiter-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.1\junit-jupiter-api-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\tchir3\.m2\repository\org\junit\platform\junit-platform-commons\1.9.1\junit-platform-commons-1.9.1.jar;C:\Users\tchir3\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.1\junit-jupiter-params-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.1\junit-jupiter-engine-5.9.1.jar;C:\Users\tchir3\.m2\repository\org\junit\platform\junit-platform-engine\1.9.1\junit-platform-engine-1.9.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-controls\19.0.2.1\javafx-controls-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-controls\19.0.2.1\javafx-controls-19.0.2.1-win.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-graphics\19.0.2.1\javafx-graphics-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-graphics\19.0.2.1\javafx-graphics-19.0.2.1-win.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-base\19.0.2.1\javafx-base-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-base\19.0.2.1\javafx-base-19.0.2.1-win.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-fxml\19.0.2.1\javafx-fxml-19.0.2.1.jar;C:\Users\tchir3\.m2\repository\org\openjfx\javafx-fxml\19.0.2.1\javafx-fxml-19.0.2.1-win.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\tchir3"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-07-15"/>
+    <property name="java.home" value="C:\Users\tchir3\Downloads\jdk-11.0.28_windows-x64_bin\jdk-11.0.28"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\tchir3\Downloads\HomeworkOne\CS342Project_2"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="surefire.real.class.path" value="C:\Users\tchir3\AppData\Local\Temp\surefire9213953117129049416\surefirebooter3888525863507158892.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="11.0.28+12-LTS-279"/>
+    <property name="user.name" value="tchir3"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="18.9"/>
+    <property name="localRepository" value="C:\Users\tchir3\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\tchir3\AppData\Local\Temp\"/>
+    <property name="java.version" value="11.0.28"/>
+    <property name="user.dir" value="C:\Users\tchir3\Downloads\HomeworkOne\CS342Project_2"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.library.path" value="C:\Users\tchir3\Downloads\jdk-11.0.28_windows-x64_bin\jdk-11.0.28\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\Users\tchir3\Downloads\jdk-11.0.28_windows-x64_bin\jdk-11.0.28\bin;C:\Users\tchir3\Downloads\apache-maven-3.9.11-bin\apache-maven-3.9.11\bin;C:\Program Files\Vim\vim91;C:\Users\tchir3\Downloads\make-4.4.1-with-guile-w32-bin;C:\Users\tchir3\AppData\Local\Microsoft\WindowsApps;C:\Users\tchir3\AppData\Local\Programs\Microsoft VS Code\bin;C:\ProgramData\tchir3\GitHubDesktop\bin;C:\Users\tchir3\AppData\Roaming\npm;C:\Users\tchir3\Downloads\jdk-11.0.28_windows-x64_bin\jdk-11.0.28\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.2.1\bin;."/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vm.version" value="11.0.28+12-LTS-279"/>
+    <property name="java.specification.maintenance.version" value="3"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="55.0"/>
+  </properties>
+  <testcase name="testInitialStateEmptyPlayerNumbers" classname="GameStateTest" time="0.029"/>
+  <testcase name="testZeroMatchesNonPayingScenarios" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot10FiveMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testGetMatchesPartial" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot10NineMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testRunDrawingValidRange" classname="GameStateTest" time="0.002"/>
+  <testcase name="testSpot10TenMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testRunDrawingUpdatesCurrentDrawnNumbers" classname="GameStateTest" time="0"/>
+  <testcase name="testInitialStateZeroPlayerSpots" classname="GameStateTest" time="0"/>
+  <testcase name="testStartNewDrawingSession" classname="GameStateTest" time="0"/>
+  <testcase name="testSetGetPlayerNumbers" classname="GameStateTest" time="0"/>
+  <testcase name="testGetMatchesEmptyDrawnNumbers" classname="GameStateTest" time="0"/>
+  <testcase name="testMultipleDrawingsDifferent" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot4OneMatch" classname="GameStateTest" time="0"/>
+  <testcase name="testGetMatchesAll" classname="GameStateTest" time="0"/>
+  <testcase name="testHasMoreDrawingsAfterFirst" classname="GameStateTest" time="0.001"/>
+  <testcase name="testGetMatchesEmptyPlayerNumbers" classname="GameStateTest" time="0"/>
+  <testcase name="testRunDrawingProducesUniqueNumbers" classname="GameStateTest" time="0.001"/>
+  <testcase name="testResetForNewGame" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot8SixMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot8FiveMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot10EightMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot4TwoMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot4ThreeMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testInitialCurrentDrawingWinnings" classname="GameStateTest" time="0"/>
+  <testcase name="testAddToTotalWinnings" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot1OneMatch" classname="GameStateTest" time="0.001"/>
+  <testcase name="testGetMatchesZero" classname="GameStateTest" time="0.001"/>
+  <testcase name="testInitialStateZeroWinnings" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot10SixMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSetGetCurrentDrawingNumber" classname="GameStateTest" time="0.001"/>
+  <testcase name="testTotalWinningsAccumulation" classname="GameStateTest" time="0.001"/>
+  <testcase name="testCurrentDrawingWinningsUpdated" classname="GameStateTest" time="0"/>
+  <testcase name="testSetGetPlayerSpots" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot10ZeroMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSetGetCurrentDrawingWinnings" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot8EightMatches" classname="GameStateTest" time="0.006"/>
+  <testcase name="testInitialStateZeroTotalDrawings" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot4FourMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot10SevenMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testInitialStateZeroDrawingNumber" classname="GameStateTest" time="0"/>
+  <testcase name="testHasMoreDrawingsTrue" classname="GameStateTest" time="0.001"/>
+  <testcase name="testHasMoreDrawingsZero" classname="GameStateTest" time="0"/>
+  <testcase name="testCompleteGameFlow" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot1ZeroMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testRunDrawingClearsPreviousNumbers" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot8FourMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot4ZeroMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testRunDrawingProduces20Numbers" classname="GameStateTest" time="0"/>
+  <testcase name="testSetGetTotalWinnings" classname="GameStateTest" time="0.001"/>
+  <testcase name="testRunDrawingIncrementsDrawingNumber" classname="GameStateTest" time="0"/>
+  <testcase name="testSpot8SevenMatches" classname="GameStateTest" time="0.001"/>
+  <testcase name="testHasMoreDrawingsFalse" classname="GameStateTest" time="0"/>
+  <testcase name="testSetGetTotalDrawings" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSetGetCurrentDrawnNumbers" classname="GameStateTest" time="0"/>
+  <testcase name="testInitialStateEmptyDrawnNumbers" classname="GameStateTest" time="0.001"/>
+  <testcase name="testSpot8ZeroMatches" classname="GameStateTest" time="0"/>
+  <testcase name="testInvalidSpotCountReturnsZero" classname="GameStateTest" time="0"/>
+</testsuite>

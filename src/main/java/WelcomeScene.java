@@ -1,4 +1,7 @@
 // WelcomeScene.java
+// Author: Sara Alaidroos, salai3, salai3@uic.edu
+// Author: Teresa Chirayil, tchir3, tchir3@uic.edu
+//
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +13,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+// WelcomeScene creates and manages the welcome/splash screen for the Keno game.
+// This is the first screen users see when launching the application.
+// It provides game information, navigation options, and displays total winnings.
 
 public class WelcomeScene {
     private Scene scene;

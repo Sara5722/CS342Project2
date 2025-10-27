@@ -1,3 +1,5 @@
+// Author: Sara Alaidroos, salai3, salai3@uic.edu
+// Author: Teresa Chirayil, tchir3, tchir3@uic.edu
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.*;
 import javafx.stage.Stage;
+
+//GamePlayScene manages the main gameplay interface for the Keno game.
+//It coordinates all UI components, user interactions, game logic flow,
+//and visual feedback including animations and color scheme changes.
+
 
 public class GamePlayScene {
     private Scene scene;
@@ -24,6 +31,7 @@ public class GamePlayScene {
     private final String WHITE = "#FFFFFF";
     private final String BLACK = "#000000";
 
+    //UI components
     private MenuBar menuBar;
     private ToggleGroup spotsToggleGroup;
     private ToggleGroup drawingsToggleGroup;
@@ -42,18 +50,22 @@ public class GamePlayScene {
     private Label winsDisplay;
     private Label totalWinsDisplay;
 
+    //layout containers
     private VBox rootLayout;
     private HBox controlPanel;
     private VBox resultsPanel;
 
+    //game state
     private boolean drawingInProgress = false;
 
+    //intializes gameplay scene references to main app and game state
     public GamePlayScene(KenoGame mainApp, GameState gameState) {
         this.mainApp = mainApp;
         this.gameState = gameState;
         initialize();
     }
 
+    //setup layout
     private void initialize() {
         createMenuBar();
         createBetCard();
@@ -62,6 +74,7 @@ public class GamePlayScene {
         setupLayout();
     }
 
+    // menu with rules, odds, new look, exit
     private void createMenuBar() {
         // Main "Menu" dropdown
         Menu mainMenu = new Menu("Menu");
@@ -99,11 +112,13 @@ public class GamePlayScene {
         );
     }
 
-
+    //instates bet card, 80 bit gird
     private void createBetCard() {
         betCard = new BetCard();
     }
 
+    //handles user select number of drawings
+    //updates status message and validates if game can start
     private void handleDrawingSelection() {
         validateStartConditions();
         if (drawingsToggleGroup.getSelectedToggle() != null) {
@@ -114,6 +129,7 @@ public class GamePlayScene {
         }
     }
 
+    //creates the control panel containing spot selection, drawing selection, action buttons, and status messages
     private void createControlPanel() {
         // Spot selection
         Label spotsLabel = new Label("Select Spots:");
@@ -126,11 +142,13 @@ public class GamePlayScene {
         ToggleButton spot8 = createToggleButton("8");
         ToggleButton spot10 = createToggleButton("10");
 
+        //buttons for toggle group
         spot1.setToggleGroup(spotsToggleGroup);
         spot4.setToggleGroup(spotsToggleGroup);
         spot8.setToggleGroup(spotsToggleGroup);
         spot10.setToggleGroup(spotsToggleGroup);
 
+        //attach handler for each spot
         spot1.setOnAction(e -> handleSpotSelection(1));
         spot4.setOnAction(e -> handleSpotSelection(4));
         spot8.setOnAction(e -> handleSpotSelection(8));
@@ -150,11 +168,13 @@ public class GamePlayScene {
         ToggleButton draw3 = createToggleButton("3");
         ToggleButton draw4 = createToggleButton("4");
 
+        //buttons to toggle group
         draw1.setToggleGroup(drawingsToggleGroup);
         draw2.setToggleGroup(drawingsToggleGroup);
         draw3.setToggleGroup(drawingsToggleGroup);
         draw4.setToggleGroup(drawingsToggleGroup);
 
+        //same handler
         draw1.setOnAction(e -> handleDrawingSelection());
         draw2.setOnAction(e -> handleDrawingSelection());
         draw3.setOnAction(e -> handleDrawingSelection());
@@ -241,12 +261,13 @@ public class GamePlayScene {
         return button;
     }
 
+    //creates button
     private Button createActionButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 12));
         button.setStyle("-fx-background-color: " + PINK + "; " +
                 "-fx-text-fill: " + WHITE + "; " +
-                "-fx-padding: 8px 15px;");
+                "-fx-padding: 8px 15px;");//pink
 
         // Style for disabled state
         button.disabledProperty().addListener((obs, oldVal, newVal) -> {
@@ -264,6 +285,7 @@ public class GamePlayScene {
         return button;
     }
 
+    //result panel: drawn number, matches, winning
     private void createResultsPanel() {
         Label resultsTitle = new Label("Drawing Results");
         resultsTitle.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -306,6 +328,7 @@ public class GamePlayScene {
         resultsPanel.setAlignment(Pos.TOP_CENTER);
     }
 
+    //set up main layout structure with menu bar, bet card, control panel, and results panel
     private void setupLayout() {
         // Main content area - use BorderPane for better layout control
         BorderPane mainContent = new BorderPane();
@@ -342,6 +365,8 @@ public class GamePlayScene {
     }
 
     //game logic
+
+    //select 1, 4, 8, 10 spots
     private void handleSpotSelection(int spots) {
         gameState.setPlayerSpots(spots);
         betCard.enableSelection(spots);
@@ -349,6 +374,7 @@ public class GamePlayScene {
         validateStartConditions();
     }
 
+    //handle auto pick, picks random spots
     private void handleAutoPick() {
         if (gameState.getPlayerSpots() == 0) {
             statusMessage.setText("Please select number of spots first.");
@@ -360,6 +386,8 @@ public class GamePlayScene {
         validateStartConditions();
     }
 
+
+    //handles start button click, begins drawing selection with selected numbers
     private void handleStartDrawing() {
         if (drawingInProgress) return;
 
@@ -374,6 +402,7 @@ public class GamePlayScene {
         startNextDrawing();
     }
 
+    //intiates the next drawing in sequence, updates progress, starts animation
     private void startNextDrawing() {
         drawingProgressLabel.setText("Drawing " + gameState.getCurrentDrawingNumber() + " of " + gameState.getTotalDrawings());
         drawnNumbersDisplay.setText("Drawn Numbers: Drawing...");
@@ -382,6 +411,7 @@ public class GamePlayScene {
         animateDrawing();
     }
 
+    //animates drawing process by revealing numbers one at time
     private void animateDrawing() {
         Set<Integer> drawnNumbers = gameState.runDrawing();
         List<Integer> drawnList = new ArrayList<>(drawnNumbers);
@@ -415,22 +445,27 @@ public class GamePlayScene {
         }).start();
     }
 
+    //displays results of current drawing, enable next button if more drawings remaining
     private void showDrawingResults() {
         Set<Integer> matches = gameState.getMatches();
         double winnings = gameState.calculateWinnings(matches.size());
 
+        //highlight matching numbers on card
         betCard.highlightMatches(gameState.getCurrentDrawnNumbers());
 
+        //updates result
         matchesDisplay.setText("Matches: " + matches.size() + " (" + matches + ")");
         winsDisplay.setText("This Drawing: $" + String.format("%.2f", winnings));
         totalWinsDisplay.setText("Total Won: $" + String.format("%.2f", gameState.getTotalWinnings()));
 
+        //message based on result
         if (matches.size() > 0) {
             updateStatusMessage("Congratulations! You matched " + matches.size() + " numbers and won $" + String.format("%.2f", winnings) + "!");
         } else {
             updateStatusMessage("No matches this drawing. Better luck next time!");
         }
 
+        //check for more drawings
         if (gameState.hasMoreDrawings()) {
             nextDrawingButton.setDisable(false);
             drawingProgressLabel.setText("Ready for next drawing. Click 'Next Drawing'.");
@@ -444,6 +479,7 @@ public class GamePlayScene {
         drawingInProgress = false;
     }
 
+    //handle next button
     private void handleNextDrawing() {
         if (gameState.hasMoreDrawings()) {
             nextDrawingButton.setDisable(true);
@@ -451,6 +487,7 @@ public class GamePlayScene {
         }
     }
 
+    //reset to initial state
     private void resetGame() {
         betCard.reset();
         spotsToggleGroup.selectToggle(null);
@@ -471,6 +508,7 @@ public class GamePlayScene {
         selectedSpotsLabel.setText("Selected: 0/0");
     }
 
+    //enables and disables buttons to prevent changes during game
     private void setControlsDisabled(boolean disabled) {
         for (Toggle toggle : spotsToggleGroup.getToggles()) {
             ((ToggleButton) toggle).setDisable(disabled);
@@ -483,6 +521,7 @@ public class GamePlayScene {
         betCard.disableSelection();
     }
 
+    //validates all conditions are met at start of game
     private void validateStartConditions() {
         boolean spotsSelected = gameState.getPlayerSpots() > 0;
         boolean numbersSelected = betCard.isSelectionValid();
@@ -505,10 +544,13 @@ public class GamePlayScene {
         }
     }
 
+    // menu handlers
+    //pop up window with games and instructions
     private void updateStatusMessage(String message) {
         statusMessage.setText(message);
     }
 
+    //rules
     private void showRules() {
         Stage rulesWindow = new Stage();
         rulesWindow.setTitle("Keno Rules");
@@ -549,6 +591,7 @@ public class GamePlayScene {
         rulesWindow.show(); // Floating window
     }
 
+    //odds
     private void showOdds() {
         Stage oddsWindow = new Stage();
         oddsWindow.setTitle("Keno Odds & Payouts");
@@ -612,6 +655,7 @@ public class GamePlayScene {
 
     private Integer currentColorScheme = 0;
 
+    //tracks color
     private void applyNewLook() {
         if (currentColorScheme == null) {
             currentColorScheme = 0;
@@ -635,6 +679,7 @@ public class GamePlayScene {
         }
     }
 
+    //applys new colors and UI
     private void setBackgroundColors(String bgColor, String borderColor) {
         // Root background
         rootLayout.setStyle("-fx-background-color: " + bgColor + ";");
@@ -655,6 +700,7 @@ public class GamePlayScene {
                 "-fx-border-radius: 8;");
     }
 
+    //returns scene
     public Scene getScene() {
         if (scene == null) {
             scene = new Scene(rootLayout, 1000, 700);
